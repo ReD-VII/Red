@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  python_app:
+    build: ./app
+    container_name: REDVII-APP
+    # restart: always
+    restart: no
+    working_dir: /app
+    volumes:
+      - ./app:/app
+      - ./data:/data
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+    env_file:
+      - .env
+    networks:
+      - logistica_network
+    command: >
+      python /app/main.py  # ✅ Remove o uso desnecessário de virtualenv
+
+  postgres_db:
+    image: postgres:15
+    container_name: REDVII-postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: "postgres"  # ✅ Mantém consistência com o código
+      POSTGRES_PASSWORD: "root"
+      POSTGRES_DB: "redvii_db"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - logistica_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  postgres_data:
+
+networks:
+  logistica_network:
+    driver: bridge
