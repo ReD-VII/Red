@@ -17,8 +17,10 @@ services:
       - .env
     networks:
       - logistica_network
+    # command: >
+    #   python /app/main.py  # ✅ Remove o uso desnecessário de virtualenv
     command: >
-      python /app/main.py  # ✅ Remove o uso desnecessário de virtualenv
+      tail -f /dev/null
 
   postgres_db:
     image: postgres:15

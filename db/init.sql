@@ -1,4 +1,6 @@
+-- 🔹 Estrutura do banco de dados.
 -- 🔹 Tabela para "Gestão de Base" (data_01.xlsx)
+
 CREATE TABLE IF NOT EXISTS gestao_base (
     id SERIAL PRIMARY KEY,
     numero_pedido VARCHAR(50) UNIQUE NOT NULL,
@@ -20,7 +22,7 @@ CREATE TABLE IF NOT EXISTS gestao_base (
     codigo_entregador VARCHAR(50),
     cep_destino VARCHAR(20),
     tempo_atualizacao TIMESTAMP,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- DATA E HORA DA ATUALIZAÇÃO DOS DADOS
 );
 
 -- 🔹 Tabela para "Report D-1" (report_D-1.xlsx)
